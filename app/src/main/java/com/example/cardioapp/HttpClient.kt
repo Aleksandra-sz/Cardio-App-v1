@@ -12,7 +12,7 @@ interface ResponseCallback {
 class LMStudioHttpClient {
     private val client = OkHttpClient()
 
-    fun sendPostRequest(messages: Array<String>, callback: ResponseCallback) {
+    fun sendPostRequest(messages: MutableList<String>, callback: ResponseCallback) {
         val url = "http://10.0.2.2:1234/v1/chat/completions"
         val json = buildMessagesJson(messages)
         val requestBody = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
@@ -40,7 +40,7 @@ class LMStudioHttpClient {
         })
     }
 
-    private fun buildMessagesJson(inputs: Array<String>): String {
+    private fun buildMessagesJson(inputs: MutableList<String>): String {
         val messagesList = inputs.map { input ->
             val (role, content) = input.split("-")
             "{\"role\": \"$role\", \"content\": \"$content\"}"
@@ -48,5 +48,4 @@ class LMStudioHttpClient {
 
         return "{\"messages\": [${messagesList.joinToString(",")}]}"
     }
-
 }
