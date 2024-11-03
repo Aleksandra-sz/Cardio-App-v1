@@ -17,7 +17,8 @@ constraintlayout = "2.1.4"
 
 [libraries]
 okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
-gjson = "com.google.code.gson:gson:2.10.1"
+json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+stdlib = "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -43,4 +44,4 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

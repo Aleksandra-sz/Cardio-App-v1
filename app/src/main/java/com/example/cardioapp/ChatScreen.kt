@@ -1,5 +1,6 @@
 package com.example.cardioapp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
@@ -22,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,35 +39,45 @@ fun ChatScreen(
     viewModel: ChatViewModel,
     navController: NavHostController,
 ) {
-    var messageHistory by remember { mutableStateOf(mutableListOf<String>()) }
+    var messageHistory by remember { mutableStateOf(SnapshotStateList<MessageModel>()) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         AppHeader(navController)
-        AddMessages(messageHistory)
+        AddMessages(modifier,viewModel.messageList)
         Spacer(modifier = Modifier.weight(1f))
         InputMess(
             onMessageSend = { message ->
-                messageHistory.add("user-$message")
-                viewModel.sendMessage(messageHistory)
+                messageHistory = viewModel.sendMessage(message)
             }
         )
     }
 }
 
 @Composable
-fun AddMessages(messages: MutableList<String>) {
-    Column {
-        messages.forEach { message ->
-            Text(
-                modifier = Modifier
-                    .padding(20.dp),
-                text = message,
-                color = Color.Black,
-                fontSize = 22.sp
-            )
+fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<MessageModel>) {
+    LazyColumn {
+        items(chatHistory){
+            Column(
+                modifier = Modifier.background(color = Color.Gray),horizontalAlignment = Alignment.End
+            ){
+                Text(
+                    modifier = Modifier
+                        .padding(20.dp),
+                    text = it.role,
+                    color = Color.Black,
+                    fontSize = 12.sp,
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(20.dp),
+                    text = it.message,
+                    color = Color.Black,
+                    fontSize = 22.sp
+                )
+            }
         }
     }
 }
