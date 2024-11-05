@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,8 +48,9 @@ fun ChatScreen(
             .fillMaxSize()
     ) {
         AppHeader(navController)
-        AddMessages(modifier,viewModel.messageList)
-        Spacer(modifier = Modifier.weight(1f))
+        AddMessages(modifier = Modifier
+            .weight(1f),
+            viewModel.messageList)
         InputMess(
             onMessageSend = { message ->
                 messageHistory = viewModel.sendMessage(message)
@@ -58,25 +61,40 @@ fun ChatScreen(
 
 @Composable
 fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<MessageModel>) {
-    LazyColumn {
-        items(chatHistory){
-            Column(
-                modifier = Modifier.background(color = Color.Gray),horizontalAlignment = Alignment.End
-            ){
-                Text(
+    LazyColumn(modifier = modifier) {
+        items(chatHistory){ message ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = if (message.role == "user") Arrangement.End else Arrangement.Start
+            ) {
+                Column(
                     modifier = Modifier
-                        .padding(20.dp),
-                    text = it.role,
-                    color = Color.Black,
-                    fontSize = 12.sp,
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(20.dp),
-                    text = it.message,
-                    color = Color.Black,
-                    fontSize = 22.sp
-                )
+                        .padding(
+                            start = if (message.role == "assistant") 16.dp else 64.dp,
+                            end = if (message.role == "user") 16.dp else 64.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
+                        .background(
+                            color = if (message.role == "user") Color(0xFFADD8E6) else Color(0xFF00008B),
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .padding(12.dp),
+                ) {
+                    Text(
+                        text = message.role,
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = message.message,
+                        color = Color.White,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
     }
@@ -85,24 +103,24 @@ fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<Me
 @Composable
 fun AppHeader(navController: NavHostController
 ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(110.dp)
-                .background(MaterialTheme.colorScheme.primary),
-        ) {
-            Column {
-                Text(
-                    modifier = Modifier
-                        .padding(20.dp),
-                    text = "Your assistant",
-                    color = Color.White,
-                    fontSize = 22.sp
-                )
-                BackButton {
-                    navController.navigate("home")
-                }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(110.dp)
+            .background(MaterialTheme.colorScheme.primary),
+    ) {
+        Column {
+            Text(
+                modifier = Modifier
+                    .padding(20.dp),
+                text = "Your assistant",
+                color = Color.White,
+                fontSize = 22.sp
+            )
+            BackButton {
+                navController.navigate("home")
             }
+        }
     }
 }
 
@@ -140,7 +158,7 @@ fun InputMess(onMessageSend: (String) -> Unit) {
             onMessageSend(message)
             message = ""
         }) {
-            Icon(imageVector = Icons.Default.Send, contentDescription = "Send")
+            Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "Send")
         }
     }
 }
