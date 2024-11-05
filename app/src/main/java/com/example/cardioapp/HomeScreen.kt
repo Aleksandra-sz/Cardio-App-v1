@@ -42,7 +42,7 @@ fun  HomeScreen (
                     .padding(16.dp),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                Text("Chat with your private assistant", modifier = Modifier
+                Text("Chat with your private ", modifier = Modifier
                     .padding(16.dp)
                 )
             }
