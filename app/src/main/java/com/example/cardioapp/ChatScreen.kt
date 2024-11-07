@@ -135,7 +135,7 @@ fun AppHeader(navController: NavHostController) {
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .clickable { navController.navigate("settings_chat") } //tu do zmiany "home"
+                .clickable { navController.navigate("settings_chat") }
         ) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings", tint = Color.White)
         }

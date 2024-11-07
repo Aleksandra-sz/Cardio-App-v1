@@ -14,6 +14,7 @@ import androidx.compose.runtime.internal.composableLambda
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -65,6 +66,10 @@ fun CardioAppNavGraph(
 
         composable("settings_chat") {
             SettingChatScreen(navController = navController)
+        }
+
+        composable("profile"){
+            Profile(navController = navController)
         }
     }
 }
