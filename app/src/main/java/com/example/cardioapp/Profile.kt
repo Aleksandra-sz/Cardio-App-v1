@@ -12,7 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,9 +24,12 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.cardioapp.ui.theme.CARDIOAPPTheme
 import com.example.cardioapp.ui.theme.CardioColors
 
 @Composable
@@ -37,6 +42,7 @@ fun Profile (
             .fillMaxSize()
     ) {
         ProfileHeader(navController)
+        ProfileName()
     }
 }
 
@@ -64,5 +70,39 @@ fun ProfileHeader(navController: NavHostController) {
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
         }
+    }
+}
+
+@Composable
+fun ProfileName() {
+    var name by remember { mutableStateOf("")}
+
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text ="Enter your name"
+        )
+
+        TextField(
+            value = name,
+            onValueChange = { name = it},
+            label = {Text("Name")},
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
+
+}
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun ProfilePreview() {
+    CARDIOAPPTheme {
+        Profile(navController = rememberNavController())
     }
 }
