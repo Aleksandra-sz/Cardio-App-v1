@@ -18,12 +18,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,8 +41,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.cardioapp.ui.theme.CardioColors
 
-
-
 @Composable
 fun ChatScreen(
     modifier: Modifier,
@@ -50,7 +51,7 @@ fun ChatScreen(
 
     Column(
         modifier = Modifier
-            .background(color = CardioColors().DarkBlue1)
+            .background(color = CardioColors().BackgroundChat)
             .fillMaxSize()
     ) {
         AppHeader(navController)
@@ -83,7 +84,7 @@ fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<Me
                             bottom = 8.dp
                         )
                         .background(
-                            color = if (message.role == "user") Color(0xFFADD8E6) else Color(0xFF00008B),
+                            color = if (message.role == "user") CardioColors().UserWindow else CardioColors().ChatWindow,
                             shape = RoundedCornerShape(16.dp)
                         )
                         .padding(12.dp),
@@ -97,7 +98,7 @@ fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<Me
                     )
                     Text(
                         text = message.message,
-                        color = Color.White,
+                        color = Color.Black,
                         fontSize = 14.sp
                     )
                 }
@@ -112,13 +113,13 @@ fun AppHeader(navController: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .height(110.dp)
-            .background(color = CardioColors().DarkBlue2)
+            .background(color = CardioColors().HeaderChat)
     ) {
         Text(
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(20.dp),
-            text = "Your assistant",
+            text = "Cardio Assist",
             color = Color.White,
             fontSize = 22.sp
         )
@@ -130,11 +131,18 @@ fun AppHeader(navController: NavHostController) {
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
         }
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .clickable { navController.navigate("settings_chat") } //tu do zmiany "home"
+        ) {
+            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings", tint = Color.White)
+        }
     }
 }
 
-
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputMess(onMessageSend: (String) -> Unit) {
     var message by remember {
@@ -146,18 +154,22 @@ fun InputMess(onMessageSend: (String) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedTextField(
+
             modifier = Modifier
+                .background(color = CardioColors().TextFieldChat)
                 .weight(1f),
             value = message,
             onValueChange = {
                 message = it
-            }
+            },
+
+
         )
         IconButton(onClick = {
             onMessageSend(message)
             message = ""
         }) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "Send", tint = Color.Blue)
+            Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "Send", tint = CardioColors().HeaderChat)
         }
     }
 }
