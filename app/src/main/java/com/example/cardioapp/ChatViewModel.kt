@@ -1,4 +1,5 @@
 package com.example.cardioapp
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -10,7 +11,7 @@ class ChatViewModel: ViewModel() {
         mutableStateListOf<MessageModel>()
     }
 
-    fun sendMessage(message: String): SnapshotStateList<MessageModel> {
+    fun sendMessage(message: String, chatId: Int, cache: SharedPreferences, ): SnapshotStateList<MessageModel> {
         val httpClient = LMStudioHttpClient()
 
         Log.i("In ChatViewModel", message)
@@ -33,6 +34,10 @@ class ChatViewModel: ViewModel() {
                         Log.i("ChatViewModel", "Role: ${messageModel.role}, Content: ${messageModel.message}")
                         messageList.removeAt(messageList.lastIndex)
                         messageList.add(messageModel)
+
+                        val editor = cache.edit()
+                        editor.putString(chatId.toString(), saveMessageListAsJson(messageList))
+                        editor.apply()
                     }
                 } catch (e: Exception) {
                     Log.e("ChatViewModel", "Error parsing response: ${e.message}")

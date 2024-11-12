@@ -1,15 +1,8 @@
 package com.example.cardioapp
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MessageModel(
     val message: String,
     val role:String,
-
-){
-   // fun getMessage(): String {
-   //     return this.message
-   // }
-//
-   // fun getRole(): String {
-   //     return this.role
-   // }
-}
+)

@@ -1,4 +1,6 @@
 package com.example.cardioapp
+import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +31,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,14 +43,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.cardioapp.ui.theme.CardioColors
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun ChatScreen(
     modifier: Modifier,
     viewModel: ChatViewModel,
     navController: NavHostController,
+    cache: SharedPreferences,
+    chatId: Int
 ) {
     var messageHistory by remember { mutableStateOf(SnapshotStateList<MessageModel>()) }
+
+    val cacheHistory = cache.getString(chatId.toString(), null)
+    if (cacheHistory != null) {
+        viewModel.messageList.clear()
+        deserializeToMessageList(cacheHistory).forEach { message ->
+            viewModel.messageList.add(message)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -60,7 +75,7 @@ fun ChatScreen(
             viewModel.messageList)
         InputMess(
             onMessageSend = { message ->
-                messageHistory = viewModel.sendMessage(message)
+                messageHistory = viewModel.sendMessage(message, chatId, cache)
             }
         )
     }
@@ -175,3 +190,14 @@ fun InputMess(onMessageSend: (String) -> Unit) {
 }
 
 
+fun deserializeToMessageList(jsonString: String): SnapshotStateList<MessageModel> {
+    val messageList: List<MessageModel> = Json.decodeFromString(jsonString)
+
+    return mutableStateListOf(*messageList.toTypedArray())
+}
+
+fun saveMessageListAsJson(messageList: SnapshotStateList<MessageModel>): String {
+    val messageListAsList = messageList.toList()
+
+    return Json.encodeToString(messageListAsList)
+}

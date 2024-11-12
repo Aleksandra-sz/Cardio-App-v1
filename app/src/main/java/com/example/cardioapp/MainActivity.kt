@@ -1,5 +1,7 @@
 package com.example.cardioapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,20 +28,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        val cache = getSharedPreferences("app_cache", MODE_PRIVATE)
+        val haveIds = cache.getString("chatIds", null)
+
+        cache.edit().clear().commit()
+        cache.edit().apply()
+        cache.edit().commit()
+
+        if (haveIds == null) {
+            CacheTools(cache).saveIntArray("chatIds", IntArray(0))
+        }
         setContent {
             CARDIOAPPTheme {
                 CardioApp(
-                    startDestination = "home"
+                    startDestination = "home",
+                    cache = cache
                 )
-
                 }
             }
         }
     }
 
 @Composable
-fun CardioApp(startDestination: String) {
-    CardioAppNavGraph(startDestination = startDestination)
+fun CardioApp(startDestination: String, cache: SharedPreferences) {
+    CardioAppNavGraph(startDestination = startDestination, cache = cache)
 }
 
 @Composable
@@ -47,6 +59,7 @@ fun CardioAppNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String,
+    cache: SharedPreferences
 ) {
     NavHost(
         navController = navController,
@@ -54,14 +67,25 @@ fun CardioAppNavGraph(
         modifier = modifier,
     ) {
         composable("home") {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                navController = navController,
+                cache = cache
+            )
         }
 
-        composable("go_chat") {
+        composable("go_chat/{chatId}") { backStackEntry ->
+            var chatId = backStackEntry.arguments?.getString("chatId")?.toIntOrNull()
+            if (chatId == null) {
+                chatId = 1
+            }
+
             ChatScreen(
                 modifier = Modifier,
                 viewModel = ChatViewModel(),
-                navController = navController)
+                navController = navController,
+                cache = cache,
+                chatId = chatId
+            )
         }
 
         composable("settings_chat") {
@@ -69,7 +93,10 @@ fun CardioAppNavGraph(
         }
 
         composable("profile"){
-            Profile(navController = navController)
+            Profile(
+                navController = navController,
+                cache = cache
+            )
         }
     }
 }

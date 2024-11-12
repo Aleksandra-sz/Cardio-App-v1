@@ -1,5 +1,8 @@
 package com.example.cardioapp
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,7 +38,8 @@ import com.example.cardioapp.ui.theme.CardioColors
 
 @Composable
 fun Profile (
-    navController: NavHostController
+    navController: NavHostController,
+    cache: SharedPreferences
 ) {
     Column(
         modifier = Modifier
@@ -42,7 +47,7 @@ fun Profile (
             .fillMaxSize()
     ) {
         ProfileHeader(navController)
-        ProfileName()
+        ProfileName(cache)
     }
 }
 
@@ -74,7 +79,7 @@ fun ProfileHeader(navController: NavHostController) {
 }
 
 @Composable
-fun ProfileName() {
+fun ProfileName(    cache: SharedPreferences) {
     var name by remember {
         mutableStateOf("")}
 
@@ -96,16 +101,13 @@ fun ProfileName() {
             modifier = Modifier
                 .fillMaxWidth()
         )
+        Button(onClick = {
+            val editor = cache.edit()
+            editor.putString("user_name", name)
+            editor.apply()
+        }) { }
     }
 
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-    CARDIOAPPTheme {
-        Profile(navController = rememberNavController())
-    }
-}
