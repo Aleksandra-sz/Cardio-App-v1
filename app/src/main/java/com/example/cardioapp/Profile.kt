@@ -68,28 +68,31 @@ fun ProfileHeader(navController: NavHostController) {
                 .padding(16.dp)
                 .clickable { navController.navigate("home") }
         ) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+            Icon(imageVector = Arrow_back_ios, contentDescription = "Back", tint = Color.White)
         }
     }
 }
 
 @Composable
 fun ProfileName() {
-    var name by remember { mutableStateOf("")}
+    var name by remember {
+        mutableStateOf("")}
 
     Column (
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(
-            text ="Enter your name"
-        )
+//        Text(
+//            text ="Enter your name"
+//        )
 
-        TextField(
+        OutlinedTextField(
             value = name,
             onValueChange = { name = it},
-            label = {Text("Name")},
+            label =
+            {Text("Name")
+            },
             modifier = Modifier
                 .fillMaxWidth()
         )

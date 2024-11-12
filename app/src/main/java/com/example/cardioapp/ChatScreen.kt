@@ -129,7 +129,7 @@ fun AppHeader(navController: NavHostController) {
                 .padding(16.dp)
                 .clickable { navController.navigate("home") }
         ) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+            Icon(imageVector = Arrow_back_ios, contentDescription = "Back", tint = Color.White)
         }
         Box(
             modifier = Modifier

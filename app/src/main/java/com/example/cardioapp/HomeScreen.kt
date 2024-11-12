@@ -1,5 +1,6 @@
 package com.example.cardioapp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,36 +63,34 @@ fun  HomeScreen (
             }
         }
 
-        Text("Features/Explore?",   //Features
+        Text("Explore",   //Features
             color = CardioColors().HeaderChat,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(10.dp)
         )
 
         LazyRow (               //App pros
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
         ){
             items(5) { index ->
                 Card(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .height(150.dp)
+                        .padding(8.dp)
+                        .height(170.dp)
                         .width(200.dp)
-                        //.clickable(onClick = { navController.navigate("go_chat") })
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(CardioColors().HeaderChat)
+                            .background(CardioColors().ChatWindow)
                             .padding(16.dp),
-                        contentAlignment = Alignment.BottomCenter
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            "Ask about your helath any time!",
-                            color = Color.White,
+                            textsExplore[index],
+                            color = CardioColors().HeaderChat,
                             modifier = Modifier
                                 .padding(16.dp)
                         )
@@ -101,11 +100,41 @@ fun  HomeScreen (
 
         }
 
-        Text("Something to add- Recent chats?",   //sth
+        Text( "How to use Cardio Assist?",
             color = CardioColors().HeaderChat,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(10.dp))
+
+            Card(                       //How to use it
+                modifier = Modifier
+                    .padding(8.dp)
+                    .height(190.dp)
+                    .fillMaxWidth()
+            ) {
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(CardioColors().HeaderChat)
+                        .padding(16.dp),
+                ) {
+                    InstructionList.forEach { instruction ->
+                    Text(
+                        text = instruction,
+                        color = Color.White,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                }
+            }
+
+
+
+        Text("Recent chats",   //sth
+            color = CardioColors().HeaderChat,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .padding(10.dp)
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -133,6 +162,21 @@ fun  HomeScreen (
         }
     }
 }
+
+val textsExplore = listOf(
+    "Get personalized cardiology advice",
+    "Explore modern technology in healthcare",
+    "Receive support for rehabilitation after a heart attack",
+    "Access to digital therapy",
+    "Ask about your health anytime, anywhere",
+)
+
+val InstructionList = listOf(
+    "1. Click on New Chat",
+    "2. Ask a question",
+    "3. Ask about details",
+    "4. View chat history"
+)
 
 
 @Preview(showBackground = true)
