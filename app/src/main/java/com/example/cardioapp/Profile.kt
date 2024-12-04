@@ -7,10 +7,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
@@ -91,21 +93,35 @@ fun ProfileName(    cache: SharedPreferences) {
 //        Text(
 //            text ="Enter your name"
 //        )
-
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it},
-            label =
-            {Text("Name")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-        )
-        Button(onClick = {
-            val editor = cache.edit()
-            editor.putString("user_name", name)
-            editor.apply()
-        }) { }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label =
+                {
+                    Text("Name")
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            )
+            Box{
+                Icon(imageVector = CheckSquare,
+                    contentDescription = "CheckSquare",
+                    tint = CardioColors().HeaderChat,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .size(30.dp)
+                        .clickable {
+                            val editor = cache.edit()
+                            editor.putString("user_name", name)
+                            editor.apply()
+                        })
+            }
+        }
     }
 
 }

@@ -60,7 +60,8 @@ fun SettingsHeader(navController: NavHostController) {
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(16.dp)
-                .clickable { navController.navigate("go_chat") }
+                .clickable {
+                    navController.navigate("go_chat/{chatId}") }
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
         }

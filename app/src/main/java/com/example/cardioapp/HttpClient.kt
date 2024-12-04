@@ -1,10 +1,12 @@
 package com.example.cardioapp
 
+import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
 
 interface ResponseCallback {
     fun onResponse(result: String)
@@ -13,13 +15,16 @@ interface ResponseCallback {
 
 class LMStudioHttpClient {
     private val client = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(500, TimeUnit.SECONDS)
+        .writeTimeout(5, TimeUnit.SECONDS)
         .build()
+
+
 
     fun sendPostRequest(messages: SnapshotStateList<MessageModel>, callback: ResponseCallback) {
         val url = "http://10.0.2.2:1234/v1/chat/completions"
         val json = buildMessagesJson(messages)
+        Log.i("In ChatViewModel", json)
         val requestBody = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
         val request = Request.Builder()
@@ -41,13 +46,14 @@ class LMStudioHttpClient {
                 } else {
                     callback.onError("Error: ${response.code}")
                 }
+                response.close()
             }
         })
     }
 
     private fun buildMessagesJson(inputs: SnapshotStateList<MessageModel>): String {
         val messagesList = inputs.map { messageModel ->
-            "{\"role\": \"${messageModel.role}\", \"content\": \"${messageModel.message}\"}"
+            "{\"role\": \"${messageModel.role}\", \"content\": \"${messageModel.message.replace("\n"," ")}\"}"
         }
 
         return "{\"messages\": [${messagesList.joinToString(",")}]}"

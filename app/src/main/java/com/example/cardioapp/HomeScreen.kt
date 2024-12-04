@@ -24,7 +24,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +58,6 @@ fun  HomeScreen (
             .fillMaxWidth()
         ) {
             Text(
-                //Good Morning
                 "Good Morning",
                 color = CardioColors().HeaderChat,
                 fontSize = 30.sp,
@@ -62,42 +65,47 @@ fun  HomeScreen (
                     .padding(start = 10.dp, top = 25.dp),
             )
 
-
-            Box(  //Profile Icon
+            Box(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(top = 25.dp)
                     .clickable { navController.navigate("profile") }
             ) {
-                Icon(imageVector = Icons.Default.Person, contentDescription = "Person", tint = CardioColors().HeaderChat)
+                Icon(imageVector = PersonCircle, contentDescription = "Person", tint = CardioColors().HeaderChat,
+                    modifier = Modifier
+                        .size(40.dp))
             }
         }
 
         Text(
-            //Good Morning
             "$name",
-            color = CardioColors().HeaderChat,
-            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp),
+            style = TextStyle(
+                brush = Brush.linearGradient(
+                    colors = CardioColors().gradientColors
+                )
+            )
         )
 
         Text("Explore",   //Features
             color = CardioColors().HeaderChat,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(start = 10.dp, top = 18.dp, bottom = 5.dp)
         )
 
-        LazyRow (               //App pros
+        LazyRow (
             modifier = Modifier
                 .fillMaxWidth()
         ){
             items(5) { index ->
                 Card(
                     modifier = Modifier
-                        .padding(8.dp)
-                        .height(170.dp)
+                        .padding(10.dp)
+                        .height(160.dp)
                         .width(200.dp)
                 ) {
                     Box(
@@ -110,12 +118,16 @@ fun  HomeScreen (
                         Text(
                             textsExplore[index],
                             color = CardioColors().HeaderChat,
+                            textAlign = TextAlign.Center,
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
                         )
-                            Icon(imageVector = IconsList[index], contentDescription = "Back", tint = CardioColors().HeaderChat, modifier = Modifier
-                                .align(  alignment = Alignment.BottomCenter)
-                                .size(28.dp))
+                            Icon(imageVector = IconsList[index], contentDescription = "Back", tint = CardioColors().HeaderChat,
+                                modifier = Modifier
+                                    .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .size(30.dp))
+
                     }
                 }
             }
@@ -126,12 +138,12 @@ fun  HomeScreen (
             color = CardioColors().HeaderChat,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(10.dp))
+                .padding(start = 10.dp, top = 18.dp, bottom = 5.dp))
 
-            Card(                       //How to use it
+            Card(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .height(190.dp)
+                    .padding(10.dp)
+                    .height(172.dp)
                     .fillMaxWidth()
             ) {
                 Column (
@@ -144,18 +156,17 @@ fun  HomeScreen (
                     Text(
                         text = instruction,
                         color = Color.White,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
                     )
                 }
                 }
             }
 
-
-        Text("Recent chats",   //sth
+        Text("Recent Chats",
             color = CardioColors().HeaderChat,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(start = 10.dp, top = 18.dp, bottom = 5.dp)
         )
         val chatIds = cacheTools.getIntArray("chatIds")
         LazyRow() {
@@ -166,22 +177,21 @@ fun  HomeScreen (
                   if (chat != null) {
                         Card(
                             modifier = Modifier
-                                .padding(8.dp)
-                                .height(70.dp)
+                                .padding(10.dp)
+                                .height(120.dp)
                                 .width(200.dp)
                                 .clickable(onClick = {
                                     navController.navigate(route = "go_chat/$id")
                                 })
-                    ){
+                    ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(CardioColors().ChatWindow)
-                        .padding(6.dp),
+                        .padding(10.dp),
                     contentAlignment = Alignment.Center
 
                 ) {
-
                     Text(
                         id,
                         color = CardioColors().HeaderChat,
@@ -193,13 +203,11 @@ fun  HomeScreen (
         }
     }
 }
-
         Spacer(modifier = Modifier.weight(1f))
-
-        Card(                       //Go chat
+        Card(
             modifier = Modifier
                 .padding(16.dp)
-                .height(100.dp)
+                .height(80.dp)
                 .fillMaxWidth()
                 .clickable(onClick = {
                         val id = cacheTools.generateNewId("chatIds")
@@ -218,7 +226,7 @@ fun  HomeScreen (
                 Text("New chat",
                     color = CardioColors().BackgroundChat,
                     modifier = Modifier
-                    .padding(16.dp)
+                    .align(alignment = Alignment.Center)
                 )
             }
         }
@@ -228,23 +236,23 @@ fun  HomeScreen (
 val textsExplore = listOf(
     "Get personalized cardiology advice",
     "Explore modern technology in healthcare",
-    "Receive support for rehabilitation after a heart attack",
-    "Access to digital therapy",
-    "Ask about your health anytime, anywhere",
+    "Support in recovery after a heart attack",
+    "Easy access to digital therapy",
+    "Ask about health anywhere and anytime",
 )
 
 val InstructionList = listOf(
     "1. Click on New Chat",
     "2. Ask a question",
     "3. Ask about details",
-    "4. View chat history"
+    "4. View Chat History"
 )
 
 val IconsList = listOf(
     HeartPulse,
-    Phonelink_setup,
-    Local_hospital,
-    Edit_document,
+    Volunteer_activism,
+    Hospital,
+    Psychology_alt,
     Globe
 )
 
@@ -255,6 +263,5 @@ fun displayAllSharedPreferences(prefs: SharedPreferences): String {
     for ((key, value) in allEntries) {
         result.append("Key: $key, Value: $value\n")
     }
-
     return result.toString()
 }

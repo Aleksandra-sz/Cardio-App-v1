@@ -89,7 +89,9 @@ fun CardioAppNavGraph(
         }
 
         composable("settings_chat") {
-            SettingChatScreen(navController = navController)
+            SettingChatScreen(
+                navController = navController,
+            )
         }
 
         composable("profile"){

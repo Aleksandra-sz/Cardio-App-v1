@@ -16,7 +16,6 @@ class ChatViewModel: ViewModel() {
 
         Log.i("In ChatViewModel", message)
         messageList.add(MessageModel(role = "user", message = message ))
-        messageList.add((MessageModel(role = "assistant", message = "Typing...")))
         Log.i("In ChatViewModel", messageList.toString())
 
         httpClient.sendPostRequest(messageList, object : ResponseCallback {
@@ -60,6 +59,8 @@ class ChatViewModel: ViewModel() {
                 return
             }
         })
+        messageList.add((MessageModel(role = "assistant", message = "Typing...")))
+
         return messageList
     }
 }
