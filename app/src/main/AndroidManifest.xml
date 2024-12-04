@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CARDIOAPP"
         tools:targetApi="31">
+
+        <service
+            android:name=".CardioAppFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".SplashActivity"
             android:exported="false" />

@@ -22,10 +22,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cardioapp.ui.theme.CARDIOAPPTheme
+import android.app.Application
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
         val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
         val cache = getSharedPreferences("app_cache", MODE_PRIVATE)
