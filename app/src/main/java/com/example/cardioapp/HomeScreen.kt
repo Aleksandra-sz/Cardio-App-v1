@@ -1,6 +1,7 @@
 package com.example.cardioapp
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -171,19 +172,26 @@ fun  HomeScreen (
         val chatIds = cacheTools.getIntArray("chatIds")
         LazyRow() {
             items(chatIds.size) { index ->
-                  val id = chatIds[index].toString()
-                  val chat = cache.getString(id, null)
+                val id = chatIds[index].toString()
+                val chat = cache.getString(id, null)
+                var history = cache.getString(id, null)
+                var title = ""
                 cache.all
-                  if (chat != null) {
-                        Card(
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .height(120.dp)
-                                .width(200.dp)
-                                .clickable(onClick = {
-                                    navController.navigate(route = "go_chat/$id")
-                                })
-                    ) {
+
+                if (history == null) title = id
+                else {
+                    title = deserializeToMessageList(history)[0].message
+                }
+
+                if (chat != null) {
+                    Card(
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .height(120.dp)
+                            .width(200.dp)
+                            .clickable(onClick = {
+                                navController.navigate(route = "go_chat/$id")
+                            })) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -193,7 +201,7 @@ fun  HomeScreen (
 
                 ) {
                     Text(
-                        id,
+                        title,
                         color = CardioColors().HeaderChat,
                         modifier = Modifier
                             .padding(6.dp)
