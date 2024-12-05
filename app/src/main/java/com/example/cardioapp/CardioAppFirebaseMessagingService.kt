@@ -1,48 +1,52 @@
 package com.example.cardioapp;
 
-import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
 
 import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
-public class CardioAppFirebaseMessagingService extends FirebaseMessagingService {
+class CardioAppFirebaseMessagingService : FirebaseMessagingService() {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        remoteMessage.notification?.let {
+        Log.i("Notification", "title - ${it.title}, message - ${it.body}")
+            val title = it.title ?: "Brak tytułu"
+            val body = it.body ?: "Brak treści"
 
-    private static final String CHANNEL_ID = "FCM_Channel";
-
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        if (remoteMessage.getNotification() != null) {
-            String title = remoteMessage.getNotification().getTitle();
-            String body = remoteMessage.getNotification().getBody();
-
-            sendNotification(title, body);
+            sendNotification(title, body)
         }
     }
 
-    private void sendNotification(String title, String body) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    private fun sendNotification(title: String, body: String) {
+        val channelId = "default_channel_id"
+        val channelName = "Default Channel"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "FCM Notifications";
-            String description = "Channel for Firebase Cloud Messaging notifications";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            notificationManager.createNotificationChannel(channel);
+            val channel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(channel)
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setAutoCancel(true);
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
 
-        notificationManager.notify(0, notificationBuilder.build());
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(0, notification)
     }
 }

@@ -15,11 +15,13 @@ appcompat = "1.7.0"
 material = "1.10.0"
 activity = "1.9.3"
 constraintlayout = "2.1.4"
+googleServices = "4.4.2"
 
 [libraries]
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
 json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 stdlib = "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
@@ -44,8 +46,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
