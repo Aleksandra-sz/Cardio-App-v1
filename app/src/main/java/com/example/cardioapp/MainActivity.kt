@@ -1,6 +1,6 @@
 package com.example.cardioapp
 
-import android.Manifest // Dodaj ten import dla POST_NOTIFICATIONS
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
