@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,8 +41,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.cardioapp.ui.theme.CARDIOAPPTheme
 import com.example.cardioapp.ui.theme.CardioColors
+import robotoFontFamily
 import kotlin.math.log
-
 
 @SuppressLint("CommitPrefEdits")
 @Composable
@@ -73,6 +74,7 @@ fun  HomeScreen (
             Text(
                 "Good Morning",
                 color = CardioColors().Additional,
+                fontFamily = robotoFontFamily, fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
                 modifier = Modifier
                     .padding(start = 10.dp, top = 25.dp),
@@ -92,7 +94,7 @@ fun  HomeScreen (
 
         Text(
             "$name",
-            fontWeight = FontWeight.Bold,
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp),
@@ -103,8 +105,9 @@ fun  HomeScreen (
             )
         )
 
-        Text("Explore",   //Features
+        Text("Explore",
             color = CardioColors().Additional,
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp, top = 18.dp, bottom = 5.dp),
@@ -131,6 +134,7 @@ fun  HomeScreen (
                     ) {
                         Text(
                             textsExplore[index],
+                            fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
                             color = CardioColors().Additional,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -150,7 +154,10 @@ fun  HomeScreen (
 
         Text( "How to use Cardio Assist?",
             color = CardioColors().Additional,
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
+
+
             modifier = Modifier
                 .padding(start = 10.dp, top = 18.dp, bottom = 5.dp))
 
@@ -169,6 +176,7 @@ fun  HomeScreen (
                     InstructionList.forEach { instruction ->
                     Text(
                         text = instruction,
+                        fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
                         color = Color.White,
                         modifier = Modifier.padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
                     )
@@ -178,6 +186,7 @@ fun  HomeScreen (
 
         Text("Recent Chats",
             color = CardioColors().Additional,
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp, top = 18.dp, bottom = 5.dp)
@@ -216,6 +225,7 @@ fun  HomeScreen (
                     Text(
                         title,
                         color = CardioColors().Additional,
+                        fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .padding(6.dp)
@@ -246,7 +256,8 @@ fun  HomeScreen (
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Text("New chat",
-                    color = CardioColors().TextFieldChat,
+                    fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
+                    color = Color.White,
                     modifier = Modifier
                     .align(alignment = Alignment.Center)
                 )

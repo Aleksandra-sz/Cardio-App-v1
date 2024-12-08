@@ -22,7 +22,7 @@ class CardioColors(){
     val HelperDarkerUserWindow = Color(0xFFe5826b)
     val HelperDarkerHeaderChat = Color(0xFF944541)
 
-    val gradientColors = listOf(UserWindow, HelperDarkerChatWindow, HelperDarkerUserWindow, HeaderChat, HelperDarkerHeaderChat)
+    val gradientColors = listOf(HelperDarkerChatWindow, HelperDarkerUserWindow, HeaderChat, HelperDarkerHeaderChat)
 
 
 

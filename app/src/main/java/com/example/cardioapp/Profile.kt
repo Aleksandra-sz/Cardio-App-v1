@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.cardioapp.ui.theme.CARDIOAPPTheme
 import com.example.cardioapp.ui.theme.CardioColors
+import robotoFontFamily
 
 @Composable
 fun Profile (
@@ -79,8 +81,10 @@ fun ProfileHeader(navController: NavHostController) {
                 .align(Alignment.Center)
                 .padding(20.dp),
             text = "Profile",
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             color = Color.White,
-            fontSize = 22.sp
+            fontSize = 22.sp,
+
         )
         Box(
             modifier = Modifier
@@ -103,9 +107,14 @@ fun ProfileName(    cache: SharedPreferences) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-//        Text(
-//            text ="Enter your name"
-//        )
+        Text(
+            text = "Enter your name",
+            color = CardioColors().Additional,
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
+            fontSize = 18.sp,
+            modifier = Modifier
+                .padding(start = 10.dp, top = 10.dp, bottom = 5.dp),
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -115,11 +124,12 @@ fun ProfileName(    cache: SharedPreferences) {
                 onValueChange = { name = it },
                 label =
                 {
-                    Text("Name")
+                    Text("Name", fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium, color = CardioColors().Additional)
                 },
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 8.dp)
+
+
             )
             Box{
                 Icon(imageVector = CheckSquare,

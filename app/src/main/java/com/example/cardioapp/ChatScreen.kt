@@ -42,12 +42,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.cardioapp.ui.theme.CardioColors
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import robotoFontFamily
 
 @Composable
 fun ChatScreen(
@@ -117,6 +119,7 @@ fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<Me
                         .padding(12.dp),
                 ) {
                     Text(
+                        fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
                         text = message.role,
                         color = Color.Black,
                         fontSize = 14.sp,
@@ -124,6 +127,7 @@ fun AddMessages(modifier: Modifier = Modifier, chatHistory: SnapshotStateList<Me
                             .padding(bottom = 4.dp)
                     )
                     Text(
+                        fontFamily = robotoFontFamily, fontWeight = FontWeight.SemiBold,
                         text = message.message,
                         color = Color.Black,
                         fontSize = 14.sp
@@ -147,6 +151,7 @@ fun AppHeader(navController: NavHostController) {
                 .align(Alignment.Center)
                 .padding(20.dp),
             text = "Cardio Assist",
+            fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium,
             color = Color.White,
             fontSize = 22.sp
         )
@@ -188,6 +193,10 @@ fun InputMess(onMessageSend: (String) -> Unit) {
             value = message,
             onValueChange = {
                 message = it
+            },
+            label =
+            {
+                Text("Type a question here", fontFamily = robotoFontFamily, fontWeight = FontWeight.Medium, color = CardioColors().HeaderChat)
             },
 
 

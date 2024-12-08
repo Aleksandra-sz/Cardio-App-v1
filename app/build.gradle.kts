@@ -72,4 +72,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.5")
+
 }
