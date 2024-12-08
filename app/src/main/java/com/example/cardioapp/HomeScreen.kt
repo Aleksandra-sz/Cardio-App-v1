@@ -2,6 +2,7 @@ package com.example.cardioapp
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,19 +51,28 @@ fun  HomeScreen (
 ) {
     val cacheTools = CacheTools(cache)
     val name = cache.getString("user_name", "")
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        val image = painterResource(R.drawable.background)
+        Image(
+            painter = image,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
     Column(
         modifier = Modifier
-            .background(color = CardioColors().BackgroundChat)
         .padding(16.dp)
         .fillMaxSize()) {
-        
+
         Box(modifier = Modifier
             .fillMaxWidth()
         ) {
             Text(
                 "Good Morning",
-                color = CardioColors().HeaderChat,
+                color = CardioColors().Additional,
                 fontSize = 30.sp,
                 modifier = Modifier
                     .padding(start = 10.dp, top = 25.dp),
@@ -72,7 +84,7 @@ fun  HomeScreen (
                     .padding(top = 25.dp)
                     .clickable { navController.navigate("profile") }
             ) {
-                Icon(imageVector = PersonCircle, contentDescription = "Person", tint = CardioColors().HeaderChat,
+                Icon(imageVector = PersonCircle, contentDescription = "Person", tint = CardioColors().Additional,
                     modifier = Modifier
                         .size(40.dp))
             }
@@ -92,10 +104,11 @@ fun  HomeScreen (
         )
 
         Text("Explore",   //Features
-            color = CardioColors().HeaderChat,
+            color = CardioColors().Additional,
             fontSize = 20.sp,
             modifier = Modifier
-                .padding(start = 10.dp, top = 18.dp, bottom = 5.dp)
+                .padding(start = 10.dp, top = 18.dp, bottom = 5.dp),
+
         )
 
         LazyRow (
@@ -118,12 +131,12 @@ fun  HomeScreen (
                     ) {
                         Text(
                             textsExplore[index],
-                            color = CardioColors().HeaderChat,
+                            color = CardioColors().Additional,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
                         )
-                            Icon(imageVector = IconsList[index], contentDescription = "Back", tint = CardioColors().HeaderChat,
+                            Icon(imageVector = IconsList[index], contentDescription = "Back", tint = CardioColors().Additional,
                                 modifier = Modifier
                                     .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
                                     .align(alignment = Alignment.BottomCenter)
@@ -136,7 +149,7 @@ fun  HomeScreen (
         }
 
         Text( "How to use Cardio Assist?",
-            color = CardioColors().HeaderChat,
+            color = CardioColors().Additional,
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp, top = 18.dp, bottom = 5.dp))
@@ -164,7 +177,7 @@ fun  HomeScreen (
             }
 
         Text("Recent Chats",
-            color = CardioColors().HeaderChat,
+            color = CardioColors().Additional,
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(start = 10.dp, top = 18.dp, bottom = 5.dp)
@@ -202,7 +215,8 @@ fun  HomeScreen (
                 ) {
                     Text(
                         title,
-                        color = CardioColors().HeaderChat,
+                        color = CardioColors().Additional,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .padding(6.dp)
                     )
@@ -232,14 +246,14 @@ fun  HomeScreen (
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Text("New chat",
-                    color = CardioColors().BackgroundChat,
+                    color = CardioColors().TextFieldChat,
                     modifier = Modifier
                     .align(alignment = Alignment.Center)
                 )
             }
         }
     }
-}
+}}
 
 val textsExplore = listOf(
     "Get personalized cardiology advice",

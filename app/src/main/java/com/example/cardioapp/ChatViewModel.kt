@@ -42,7 +42,7 @@ class ChatViewModel: ViewModel() {
                     Log.e("ChatViewModel", "Error parsing response: ${e.message}")
                     val messageModel = MessageModel(
                         message = "Chat bot couldn't response to your question. Please try again later.",
-                        role = "System error"
+                        role = "system"
                     )
                     messageList.add(messageModel)
                 }
@@ -53,7 +53,7 @@ class ChatViewModel: ViewModel() {
                 Log.e("ChatViewModel", "Error: $error")
                 val messageModel = MessageModel(
                     message = "Chat bot couldn't response to your question. Please try again later.",
-                    role = "System error"
+                    role = "system"
                 )
                 messageList.add(messageModel)
                 return
