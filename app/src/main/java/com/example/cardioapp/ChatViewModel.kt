@@ -15,7 +15,7 @@ class ChatViewModel: ViewModel() {
         val httpClient = LMStudioHttpClient()
 
         Log.i("In ChatViewModel", message)
-        messageList.add(MessageModel(role = "user", message = message ))
+        messageList.add(MessageModel(role = "user", message = message))
         Log.i("In ChatViewModel", messageList.toString())
 
         httpClient.sendPostRequest(messageList, object : ResponseCallback {
@@ -41,7 +41,7 @@ class ChatViewModel: ViewModel() {
                 } catch (e: Exception) {
                     Log.e("ChatViewModel", "Error parsing response: ${e.message}")
                     val messageModel = MessageModel(
-                        message = "Chat bot couldn't response to your question. Please try again later.",
+                        message = "Cardio Assist couldn't response to your question. Please try again later.",
                         role = "system"
                     )
                     messageList.add(messageModel)
@@ -52,7 +52,7 @@ class ChatViewModel: ViewModel() {
             override fun onError(error: String) {
                 Log.e("ChatViewModel", "Error: $error")
                 val messageModel = MessageModel(
-                    message = "Chat bot couldn't response to your question. Please try again later.",
+                    message = "Cardio Assist couldn't response to your question. Please try again later.",
                     role = "system"
                 )
                 messageList.add(messageModel)
